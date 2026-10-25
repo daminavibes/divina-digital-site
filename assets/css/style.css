@@ -29,9 +29,20 @@
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("../fonts/plus-jakarta-sans.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
 *,
 *::before,
 *::after { box-sizing: border-box; }
+
+/* âncoras (servicos.html#trafego) não ficam escondidas atrás do cabeçalho fixo */
+[id] { scroll-margin-top: calc(var(--header) + 24px); }
 
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; overflow-x: hidden; overflow-x: clip; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
@@ -94,7 +105,7 @@ p { margin: 0; }
 .btn--claro { --bg: var(--branco); --fg: var(--noite); box-shadow: inset 0 0 0 2px var(--linha); }
 .btn--claro:hover { box-shadow: inset 0 0 0 2px var(--azul); }
 
-.link-seta { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; color: var(--azul); text-decoration: none; }
+.link-seta { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-weight: 700; color: var(--azul); text-decoration: none; }
 .link-seta svg { width: 18px; height: 18px; transition: transform 0.25s var(--ease); }
 .link-seta:hover svg { transform: translateX(4px); }
 
@@ -110,7 +121,7 @@ p { margin: 0; }
 }
 .topo .container { height: 100%; display: flex; align-items: center; gap: 28px; }
 
-.marca { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--branco); }
+.marca { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; text-decoration: none; color: var(--branco); }
 .marca img { width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(250, 204, 21, 0.25)); }
 .marca span { font-weight: 800; font-size: 1.25rem; letter-spacing: -0.03em; }
 .marca b { color: var(--amarelo); font-weight: 800; }
@@ -374,7 +385,7 @@ p { margin: 0; }
 .legenda-grafico span { display: inline-flex; align-items: center; gap: 6px; }
 .legenda-grafico i { width: 12px; height: 4px; border-radius: 4px; background: var(--amarelo); }
 .legenda-grafico i.azul { background: var(--azul-claro); }
-.nota { font-size: 0.85rem; color: var(--tinta-suave); margin-top: 14px; }
+.nota { font-size: 0.9rem; color: var(--tinta-suave); margin-top: 14px; }
 .escuro .nota, .painel .nota { color: rgba(228, 236, 252, 0.6); }
 
 /* ---------- processo ---------- */
@@ -583,9 +594,9 @@ table.comparar { width: 100%; border-collapse: collapse; min-width: 620px; }
 .rodape { background: var(--breu); color: rgba(228, 236, 252, 0.75); padding: 70px 0 34px; }
 .rodape__grade { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 40px; }
 @media (max-width: 760px) { .rodape__grade { grid-template-columns: 1fr; } }
-.rodape h4 { color: var(--branco); font-size: 1rem; margin-bottom: 14px; letter-spacing: 0; }
+.rodape__titulo { color: var(--branco); font-size: 1rem; margin-bottom: 8px; letter-spacing: 0; }
 .rodape ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; }
-.rodape a { text-decoration: none; display: inline-block; padding: 6px 0; }
+.rodape a { text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; }
 .rodape a:hover { color: var(--amarelo); }
 .rodape p { max-width: 340px; margin-top: 14px; }
 .rodape__fim { margin-top: 50px; padding-top: 24px; border-top: 1px solid var(--linha-escura); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-size: 0.9rem; }
@@ -602,3 +613,52 @@ table.comparar { width: 100%; border-collapse: collapse; min-width: 620px; }
 /* ---------- entradas animadas (só quando o JS liga) ---------- */
 .anima [data-revela] { opacity: 0; transform: translateY(28px); }
 @media (prefers-reduced-motion: reduce) { .anima [data-revela] { opacity: 1; transform: none; } }
+
+/* ---------- cards com link: o card inteiro é clicável ---------- */
+.card:has(> .link-seta) { cursor: pointer; }
+.card > .link-seta::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.card > .link-seta:focus-visible { outline: none; }
+.card:has(> .link-seta:focus-visible) { outline: 3px solid var(--amarelo); outline-offset: 4px; }
+.card:has(> .link-seta):hover { box-shadow: 0 1px 0 var(--linha), 0 26px 60px -22px rgba(11, 27, 63, 0.45); }
+.card:has(> .link-seta):hover .link-seta svg { transform: translateX(4px); }
+
+/* ---------- entrada do herói em CSS: o título aparece no primeiro quadro, sem esperar o JS ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  [data-titulo] .palavra { animation: palavra-sobe 0.9s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  [data-titulo] .palavra:nth-child(2) { animation-delay: 0.07s; }
+  [data-titulo] .palavra:nth-child(3) { animation-delay: 0.14s; }
+  [data-titulo] .palavra:nth-child(4) { animation-delay: 0.21s; }
+  [data-titulo] .palavra:nth-child(5) { animation-delay: 0.28s; }
+  [data-titulo] .palavra:nth-child(6) { animation-delay: 0.35s; }
+  [data-titulo] .palavra:nth-child(7) { animation-delay: 0.42s; }
+  [data-titulo] .palavra:nth-child(n + 8) { animation-delay: 0.49s; }
+  [data-titulo] .amarelo::after { animation: sublinha 0.8s cubic-bezier(0.65, 0, 0.35, 1) 0.9s both; }
+  [data-heroi] { animation: surge 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both; }
+  .heroi__sub[data-heroi], .pagina-topo p[data-heroi] { animation-delay: 0.55s; }
+  .heroi__acoes[data-heroi] { animation-delay: 0.62s; }
+  .selos[data-heroi] { animation-delay: 0.7s; }
+}
+@keyframes palavra-sobe { from { opacity: 0.01; transform: translateY(0.45em) rotate(3deg); } to { opacity: 1; transform: none; } }
+@keyframes surge { from { opacity: 0.01; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes sublinha { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* menu aberto no celular: a página por trás não rola */
+html.menu-aberto { overflow: hidden; }
+
+/* linhas de texto num comprimento confortável */
+.secao__topo p, .servico > div > p, .heroi__sub { max-width: 64ch; }
+
+/* "Próximo passo" no fim das páginas internas */
+.proximo { margin-top: 28px; text-align: center; color: var(--tinta-suave); font-weight: 600; }
+.proximo .link-seta { margin-left: 4px; }
+
+/* cabeçalho fica mais baixo depois de rolar */
+.topo { transition: background 0.3s, box-shadow 0.3s, backdrop-filter 0.3s, height 0.3s; }
+.topo.rolou { height: 64px; }
+@media (max-width: 920px) { .topo.rolou { height: var(--header); } }
+
+/* rótulos pequenos em maiúsculas: menos espaço entre letras no celular */
+@media (max-width: 600px) {
+  .olho-sobre { letter-spacing: 0.08em; font-size: 0.78rem; align-items: flex-start; }
+  .olho-sobre svg { margin-top: 2px; flex: none; }
+}

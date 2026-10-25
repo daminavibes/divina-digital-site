@@ -69,7 +69,9 @@
     var corpo = document.createElement("div");
     corpo.className = "faisca__corpo";
     var img = document.createElement("img");
-    img.src = BASE + "img/faisca-corpo.webp";
+    img.src = BASE + "img/faisca-corpo-480.webp";
+    img.srcset = BASE + "img/faisca-corpo-480.webp 480w, " + BASE + "img/faisca-corpo.webp 900w";
+    img.sizes = Math.max(120, Math.round(raiz.getBoundingClientRect().width)) + "px";
     img.alt = "";
     img.width = 900;
     img.height = 859;

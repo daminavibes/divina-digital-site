@@ -18,15 +18,20 @@
 
   var botaoMenu = $(".menu-botao");
   if (botaoMenu) {
-    botaoMenu.addEventListener("click", function () {
-      var aberto = topo.classList.toggle("aberto");
-      botaoMenu.setAttribute("aria-expanded", aberto ? "true" : "false");
-    });
-    $$(".menu a").forEach(function (a) {
-      a.addEventListener("click", function () { topo.classList.remove("aberto"); botaoMenu.setAttribute("aria-expanded", "false"); });
+    var menuAberto = function (sim) {
+      topo.classList.toggle("aberto", sim);
+      document.documentElement.classList.toggle("menu-aberto", sim);
+      botaoMenu.setAttribute("aria-expanded", sim ? "true" : "false");
+      botaoMenu.setAttribute("aria-label", sim ? "Fechar menu" : "Abrir menu");
+    };
+    botaoMenu.addEventListener("click", function () { menuAberto(!topo.classList.contains("aberto")); });
+    $$(".menu a").forEach(function (a) { a.addEventListener("click", function () { menuAberto(false); }); });
+    // tocar fora do menu fecha
+    document.addEventListener("click", function (e) {
+      if (topo.classList.contains("aberto") && !topo.contains(e.target)) menuAberto(false);
     });
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && topo.classList.contains("aberto")) { topo.classList.remove("aberto"); botaoMenu.setAttribute("aria-expanded", "false"); botaoMenu.focus(); }
+      if (e.key === "Escape" && topo.classList.contains("aberto")) { menuAberto(false); botaoMenu.focus(); }
     });
   }
 
@@ -117,19 +122,7 @@
     gsap.registerPlugin(ScrollTrigger);
     document.documentElement.classList.add("anima");
 
-    // título do herói: palavra por palavra
-    var titulo = $("[data-titulo]");
-    if (titulo) {
-      var palavras = $$(".palavra", titulo);
-      gsap.fromTo(palavras, { yPercent: 110, opacity: 0, rotate: 4 },
-        { yPercent: 0, opacity: 1, rotate: 0, duration: 0.9, ease: "power4.out", stagger: 0.07, delay: 0.15 });
-      var destaque = $(".amarelo", titulo);
-      if (destaque) gsap.fromTo(destaque, { "--sublinha": 0 }, { "--sublinha": 1, duration: 0.8, delay: 0.9, ease: "power3.inOut" });
-    }
-    var entradaHeroi = $$("[data-heroi]");
-    if (entradaHeroi.length) {
-      gsap.fromTo(entradaHeroi, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power3.out", stagger: 0.1, delay: 0.55 });
-    }
+    // o título e o texto do herói entram por CSS (style.css), sem esperar este script
 
     ScrollTrigger.batch("[data-revela]", {
       start: "top 88%",
