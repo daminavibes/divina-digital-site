@@ -7,11 +7,11 @@
 (function () {
   "use strict";
 
-  var PROPORCAO = 1004 / 1052; // altura / largura da arte
-  var AZUL = "#114ee3";
+  var PROPORCAO = 892 / 935; // altura / largura da arte (estrela inteira)
+  var AZUL = "#0e50ef";
   var OLHOS = [
-    { cx: 32.2545, cy: 41.9803, rx: 6.8155, ry: 5.4041, ang: 115.82, bx: 2.3417, by: -2.8931, br: 1.5845 },
-    { cx: 62.7038, cy: 49.7127, rx: 6.7415, ry: 5.1434, ang: 99.43, bx: 1.6121, by: -3.1576, br: 1.5525 },
+    { cx: 38.3300, cy: 37.8973, rx: 6.1897, ry: 4.9125, ang: 114.60, bx: 2.1323, by: -2.6092, br: 1.4112 },
+    { cx: 65.9940, cy: 45.2365, rx: 6.1817, ry: 4.7515, ang: 100.11, bx: 1.4930, by: -2.8661, br: 1.4054 },
   ];
   var DESLOCA = 1.7; // quanto o olho anda dentro do rosto, em % da largura
   var BASE = (document.currentScript && document.currentScript.src.replace(/js\/faisca\.js.*$/, "")) || "assets/";
@@ -28,19 +28,29 @@
     return e;
   }
 
+  /* Mãozinha no mesmo amarelo 3D da estrela: palma redonda e três dedos dobrados por cima
+     da borda. Todas as formas usam o mesmo degradê no espaço do desenho (userSpaceOnUse),
+     então palma e dedos se fundem sem emenda; o volume vem de uma sombra interna embaixo
+     e de um brilho suave em cada dedo. */
   function maoSVG(id) {
+    var dedos = [24, 50, 76];
     return (
-      '<svg viewBox="0 0 100 78" aria-hidden="true"><defs><linearGradient id="' + id + '" x1="0" y1="0" x2="0" y2="1">' +
-      '<stop offset="0" stop-color="#FFE45C"/><stop offset="1" stop-color="#F2B807"/></linearGradient></defs>' +
-      '<rect x="4" y="26" width="92" height="60" rx="26" fill="url(#' + id + ')"/>' +
-      [18, 40, 62, 84].map(function (x) {
-        return '<ellipse cx="' + x + '" cy="24" rx="12" ry="15" fill="url(#' + id + ')" stroke="#E0A400" stroke-width="1.6"/>';
+      '<svg viewBox="0 0 100 80" aria-hidden="true"><defs>' +
+      '<radialGradient id="' + id + '" gradientUnits="userSpaceOnUse" cx="38" cy="14" r="78">' +
+      '<stop offset="0" stop-color="#FFF27A"/><stop offset="0.45" stop-color="#FFD31F"/><stop offset="1" stop-color="#F0A800"/></radialGradient>' +
+      '<linearGradient id="' + id + 's" x1="0" y1="0" x2="0" y2="1">' +
+      '<stop offset="0.45" stop-color="#C98500" stop-opacity="0"/><stop offset="1" stop-color="#C98500" stop-opacity="0.55"/></linearGradient>' +
+      "</defs>" +
+      '<g fill="url(#' + id + ')">' +
+      '<rect x="6" y="26" width="88" height="54" rx="27"/>' +
+      dedos.map(function (x) { return '<ellipse cx="' + x + '" cy="25" rx="15.5" ry="17"/>'; }).join("") +
+      "</g>" +
+      '<rect x="6" y="26" width="88" height="54" rx="27" fill="url(#' + id + 's)"/>' +
+      [37, 63].map(function (x) {
+        return '<path d="M' + x + ',22 Q' + (x + 0.8) + ',31 ' + x + ',40" stroke="#D08F00" stroke-width="2.4" fill="none" stroke-linecap="round" opacity="0.45"/>';
       }).join("") +
-      [29, 51, 73].map(function (x) {
-        return '<path d="M' + x + ',20 C' + x + ',30 ' + x + ',34 ' + x + ',40" stroke="#D99A00" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.6"/>';
-      }).join("") +
-      [18, 40, 62, 84].map(function (x) {
-        return '<ellipse cx="' + (x - 3) + '" cy="17" rx="4" ry="3" fill="#FFF3A6" opacity="0.7"/>';
+      dedos.map(function (x) {
+        return '<ellipse cx="' + (x - 4) + '" cy="16" rx="6" ry="4" fill="#FFFBD1" opacity="0.75"/>';
       }).join("") +
       "</svg>"
     );
@@ -86,11 +96,11 @@
     if (raiz.hasAttribute("data-maos")) {
       var caixa = document.createElement("div");
       caixa.className = "maos";
-      [0.2, 0.6].forEach(function (k, i) {
+      // uma de cada lado do corpo, onde ficariam os bracinhos da estrela
+      [0.24, 0.76].forEach(function (k, i) {
         var m = document.createElement("div");
-        m.className = "mao";
-        var centro = espelho ? 1 - k : k;
-        m.style.left = (centro * 100 - 14) + "%";
+        m.className = "mao mao--" + (i ? "dir" : "esq");
+        m.style.left = (k * 100 - 10) + "%";
         m.innerHTML = maoSVG("mao" + contador++ + "_" + i);
         caixa.appendChild(m);
         maos.push(m);
