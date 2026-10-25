@@ -207,8 +207,8 @@ p { margin: 0; }
 .selos svg { width: 18px; height: 18px; color: var(--amarelo); flex: none; }
 
 .heroi__palco {
-  position: absolute; right: clamp(16px, 4vw, 70px); bottom: 0; z-index: 2;
-  width: min(40vw, 580px);
+  position: absolute; right: clamp(16px, 6vw, 110px); bottom: 0; z-index: 2;
+  width: min(31vw, 440px);
   pointer-events: none;
 }
 .heroi__brilhos { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
@@ -218,7 +218,7 @@ p { margin: 0; }
 @media (max-width: 920px) {
   .heroi { min-height: auto; }
   .heroi__texto { padding-bottom: 0; }
-  .heroi__palco { position: relative; right: auto; width: min(80vw, 420px); margin: 28px auto 0; }
+  .heroi__palco { position: relative; right: auto; width: min(62vw, 320px); margin: 28px auto 0; }
 }
 
 /* ---------- a Faísca (rig) ---------- */
@@ -240,9 +240,9 @@ p { margin: 0; }
 .espiada__estrela { position: relative; transform: translateY(var(--desce, 18%)); will-change: transform; }
 .maos { position: absolute; left: 0; right: 0; bottom: 0; height: 0; z-index: 4; }
 .mao {
-  position: absolute; bottom: 0; width: 21%; aspect-ratio: 100 / 80;
+  position: absolute; bottom: 0; width: 25%; aspect-ratio: 100 / 80;
   transform-origin: 50% 100%;
-  translate: 0 30%; /* dedos e metade da palma acima da borda; o resto fica atrás dela */
+  translate: 0 34%; /* dedos e metade da palma acima da borda; o resto fica atrás dela */
   filter: drop-shadow(0 5px 6px rgba(7, 18, 41, 0.35));
 }
 .mao--esq { rotate: -8deg; }
@@ -448,10 +448,10 @@ p { margin: 0; }
 .chamada h2 { font-size: clamp(2.2rem, 6vw, 4.4rem); color: var(--branco); max-width: 620px; }
 .chamada p { margin: 18px 0 32px; font-size: 1.15rem; max-width: 520px; color: rgba(228, 236, 252, 0.82); }
 .chamada .olho-sobre { color: var(--amarelo); }
-.chamada__palco { position: absolute; right: clamp(16px, 5%, 64px); bottom: 0; width: min(36%, 380px); z-index: -1; pointer-events: none; }
+.chamada__palco { position: absolute; right: clamp(16px, 6%, 72px); bottom: 0; width: min(28%, 300px); z-index: -1; pointer-events: none; }
 @media (max-width: 760px) {
   .chamada { padding-bottom: 0; }
-  .chamada__palco { position: relative; right: auto; width: 72%; margin: 30px auto 0; z-index: 0; }
+  .chamada__palco { position: relative; right: auto; width: min(58%, 260px); margin: 30px auto 0; z-index: 0; }
 }
 
 /* ---------- topo das páginas internas ---------- */
@@ -464,8 +464,8 @@ p { margin: 0; }
 }
 .pagina-topo h1 { font-size: clamp(2.6rem, 6.5vw, 5rem); color: var(--branco); margin: 18px 0 20px; max-width: 820px; letter-spacing: -0.045em; }
 .pagina-topo p { font-size: clamp(1.1rem, 1.6vw, 1.25rem); max-width: 620px; color: rgba(228, 236, 252, 0.82); }
-.pagina-topo__palco { position: absolute; right: clamp(16px, 5vw, 80px); bottom: 0; width: min(28vw, 340px); z-index: -1; pointer-events: none; }
-@media (max-width: 760px) { .pagina-topo__palco { width: 40vw; right: 16px; opacity: 0.9; } .pagina-topo h1, .pagina-topo p { position: relative; } }
+.pagina-topo__palco { position: absolute; right: clamp(16px, 6vw, 100px); bottom: 0; width: min(22vw, 270px); z-index: -1; pointer-events: none; }
+@media (max-width: 760px) { .pagina-topo__palco { width: 34vw; right: 16px; opacity: 0.9; } .pagina-topo h1, .pagina-topo p { position: relative; } }
 
 /* ---------- serviços detalhados ---------- */
 .servico { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(30px, 6vw, 80px); align-items: center; }

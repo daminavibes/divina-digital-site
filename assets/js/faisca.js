@@ -100,7 +100,7 @@
       [0.24, 0.76].forEach(function (k, i) {
         var m = document.createElement("div");
         m.className = "mao mao--" + (i ? "dir" : "esq");
-        m.style.left = (k * 100 - 10) + "%";
+        m.style.left = (k * 100 - 12.5) + "%"; // centra a mão (25% da largura) no ponto k
         m.innerHTML = maoSVG("mao" + contador++ + "_" + i);
         caixa.appendChild(m);
         maos.push(m);
