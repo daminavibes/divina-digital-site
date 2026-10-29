@@ -662,3 +662,50 @@ html.menu-aberto { overflow: hidden; }
   .olho-sobre { letter-spacing: 0.08em; font-size: 0.78rem; align-items: flex-start; }
   .olho-sobre svg { margin-top: 2px; flex: none; }
 }
+
+/* ---------- brilho nas palavras de destaque (acende, aceso...): sutil, de site premium ----------
+   Uma faixa de luz passa devagar pela palavra a cada alguns segundos; um halo amarelo bem leve
+   fica por trás. Sem movimento para quem pede "reduzir movimento". */
+.brilho-texto {
+  background: linear-gradient(110deg, var(--amarelo) 0%, var(--amarelo) 42%, #fff8d6 50%, var(--amarelo) 58%, var(--amarelo) 100%);
+  background-size: 260% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--amarelo);
+  filter: drop-shadow(0 0 14px rgba(250, 204, 21, 0.28));
+}
+/* em fundo claro o destaque é azul, com a luz azul-clara */
+.secao:not(.escuro) .brilho-texto, .card:not(.card--azul):not(.card--noite) .brilho-texto {
+  background-image: linear-gradient(110deg, var(--azul) 0%, var(--azul) 42%, #8fb0ff 50%, var(--azul) 58%, var(--azul) 100%);
+  color: var(--azul);
+  filter: drop-shadow(0 0 12px rgba(29, 78, 216, 0.18));
+}
+@media (prefers-reduced-motion: no-preference) {
+  .brilho-texto { animation: brilho-varre 6s cubic-bezier(0.45, 0, 0.25, 1) 1.8s infinite; }
+}
+@keyframes brilho-varre {
+  0% { background-position: 100% 0; }
+  32%, 100% { background-position: 0% 0; }
+}
+
+/* ---------- páginas de serviço ---------- */
+.subtitulo-escuro { color: var(--branco); font-size: clamp(1.3rem, 2.4vw, 1.7rem); margin: clamp(48px, 7vw, 72px) 0 22px; }
+.padrao-faixa {
+  display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(24px, 5vw, 60px); align-items: center;
+  background: var(--branco); border-radius: var(--raio); padding: clamp(26px, 4vw, 48px);
+  box-shadow: 0 1px 0 var(--linha), var(--sombra);
+}
+.padrao-faixa h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); margin-top: 12px; }
+.padrao-faixa .lista-check { grid-template-columns: 1fr 1fr; gap: 12px 22px; margin: 0; }
+@media (max-width: 860px) { .padrao-faixa, .padrao-faixa .lista-check { grid-template-columns: 1fr; } }
+
+/* cards de serviço da página inicial */
+.servicos-cards .card { display: flex; flex-direction: column; min-height: 260px; }
+.card--noite .icone { background: rgba(250, 204, 21, 0.12); color: var(--amarelo); }
+
+/* glossário de métricas sobre fundo escuro (páginas de serviço) */
+.escuro .metrica__sigla { color: var(--amarelo); }
+.escuro .metrica .formula { background: rgba(228, 236, 252, 0.07); color: var(--ceu); box-shadow: inset 0 0 0 1px var(--linha-escura); }
+.metrica__sigla { font-size: clamp(1.7rem, 2.6vw, 2.2rem); overflow-wrap: anywhere; }

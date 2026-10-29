@@ -6,12 +6,14 @@ Site estático (HTML, CSS e JavaScript puro, com GSAP pelo CDN). Não precisa de
 
 | Arquivo | Conteúdo |
 |---|---|
-| `index.html` | Início: herói com a Faísca espiando, serviços, painel de exemplo, processo, padrões, perguntas e chamada |
-| `servicos.html` | Tráfego pago, criação de sites, reformulação e sistemas/apps, com o que está incluso e como medimos |
-| `resultados.html` | Painel com abas (tráfego, site, sistemas), glossário de métricas e simulador de campanha |
-| `metodo.html` | Etapas, padrões de qualidade, tabela de transparência e compromissos em números |
+| `index.html` | Início: herói com a Faísca espiando, os três serviços, painel de amostra, processo, perguntas e chamada |
+| `sites.html` | Criação e reformulação de sites, painel de velocidade e conversão, métricas explicadas e padrão de qualidade |
+| `trafego.html` | Tráfego pago, relatório da campanha (funil e gráfico), métricas explicadas, simulador e padrão |
+| `programacao.html` | Sistemas e apps sob medida, painel de tempo e erro, métricas explicadas e padrão |
 | `contato.html` | Formulário que monta a mensagem e abre o WhatsApp (nada é enviado pelo site) |
 | `404.html` | Página de erro usada automaticamente pelo GitHub Pages |
+
+`servicos.html`, `resultados.html` e `metodo.html` são endereços antigos: só redirecionam para a página nova equivalente.
 
 ## A Faísca
 

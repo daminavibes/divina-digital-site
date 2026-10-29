@@ -69,22 +69,21 @@
     p.style.strokeDashoffset = L;
     p.dataset.comp = L;
   }
+  // a linha se forma da esquerda pra direita; o recorte da área anda junto com a ponta dela
+  var DESENHO = { duration: 2.2, ease: "power2.inOut" };
   function desenhar(svg) {
     if (svg.dataset.desenhou) return;
     svg.dataset.desenhou = "1";
+    var recorte = $("[data-recorte]", svg);
+    if (!temGsap || reduzido) {
+      $$("[data-linha]", svg).forEach(function (p) { p.style.strokeDashoffset = 0; });
+      if (recorte) recorte.setAttribute("width", recorte.dataset.largura || recorte.getAttribute("width"));
+      return;
+    }
     $$("[data-linha]", svg).forEach(function (p, i) {
-      if (!temGsap || reduzido) { p.style.strokeDashoffset = 0; return; }
-      gsap.to(p, { strokeDashoffset: 0, duration: 1.8, delay: i * 0.25, ease: "power2.inOut" });
+      gsap.to(p, { strokeDashoffset: 0, duration: DESENHO.duration, ease: DESENHO.ease, delay: i * 0.2 });
     });
-    $$("[data-area]", svg).forEach(function (a) {
-      if (!temGsap || reduzido) { a.style.opacity = 1; return; }
-      gsap.fromTo(a, { opacity: 0 }, { opacity: 1, duration: 1.2, delay: 0.8 });
-    });
-    $$("[data-ponto]", svg).forEach(function (c, i, todos) {
-      if (!temGsap || reduzido) { c.style.opacity = 1; return; }
-      gsap.fromTo(c, { scale: 0, opacity: 0, transformOrigin: "center", transformBox: "fill-box" },
-        { scale: 1, opacity: 1, duration: 0.35, delay: 0.2 + (1.6 * i) / todos.length, ease: "back.out(2.5)" });
-    });
+    if (recorte) gsap.to(recorte, { attr: { width: recorte.dataset.largura }, duration: DESENHO.duration, ease: DESENHO.ease });
   }
 
   function crescer(alvo) {
@@ -105,8 +104,12 @@
     if (raiz.matches && raiz.matches("[data-cresce]")) crescer(raiz);
   }
 
+  function prepararRecorte(r) {
+    if (!r.dataset.largura) r.dataset.largura = r.getAttribute("width");
+    r.setAttribute("width", 0);
+  }
   $$("svg[data-desenha] [data-linha]").forEach(prepararLinha);
-  $$("svg[data-desenha] [data-area], svg[data-desenha] [data-ponto]").forEach(function (e) { e.style.opacity = 0; });
+  if (temGsap && !reduzido) $$("svg[data-desenha] [data-recorte]").forEach(prepararRecorte);
 
   var observaDados = "IntersectionObserver" in window
     ? new IntersectionObserver(function (es) {
@@ -168,7 +171,10 @@
           painel.hidden = !sel;
           if (sel) {
             $$("[data-contou]", painel).forEach(function (e) { delete e.dataset.contou; });
-            $$("[data-desenhou]", painel).forEach(function (e) { delete e.dataset.desenhou; $$("[data-linha]", e).forEach(prepararLinha); });
+            $$("[data-desenhou]", painel).forEach(function (e) {
+              delete e.dataset.desenhou; $$("[data-linha]", e).forEach(prepararLinha);
+              if (temGsap && !reduzido) $$("[data-recorte]", e).forEach(prepararRecorte);
+            });
             $$("[data-cresceu]", painel).forEach(function (e) { delete e.dataset.cresceu; });
             ativarDados(painel);
           }
